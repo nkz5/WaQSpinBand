@@ -13,6 +13,8 @@ from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationTool
 import services.graph as graph
 import services.data as data
 
+import components.BandSelectModal as BandSelectModal
+
 
 # アプリケーション（GUI）クラス
 class Application(tk.Frame):
@@ -61,8 +63,13 @@ class Application(tk.Frame):
         btn_tool_1.pack()
 
         btn_tool_2 = tk.Button(pw_tab, text="Spin", command=lambda:self.select_spin(), height = 2, width = 10)
-        # btn_tool_1.grid(row=3, column=0, sticky=tk.W + tk.E, padx=2, pady=10)
         btn_tool_2.pack()
+
+        btn_tool_3 = tk.Button(pw_tab, text="Modal", command=lambda:self.open_modal(), height = 2, width = 10)
+        btn_tool_3.pack()
+
+    def open_modal(self):
+        BandSelectModal.ModalWindow(self.pw_main)
 
     def select_band(self):
         fTyp = [("", "*")]
