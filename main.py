@@ -17,7 +17,6 @@ import components.BandSelectModal as BandSelectModal
 import components.InputKLabelsModal as InputKLabelsModal
 
 
-# アプリケーション（GUI）クラス
 class Application(tk.Frame):
     DEBUG_LOG = True
 
@@ -43,14 +42,10 @@ class Application(tk.Frame):
         self.create_widgets()
         
     def create_widgets(self):
-        # ペインウィンドウ
-        # PanedWindow
-        ##  orient : 配置（vertical or horizontal）
-        ##  bg : 枠線の色
-        # pack
-        ##  expand ：可変（True or False(固定)
-        ##  fill : スペースが空いている場合の動き（tk.BOTH　縦横に広がる）
-        ##  side ：　配置する際にどの方向からつめていくか（side or top ・・・）
+        """
+        Create main widget, left tab widget and right band plot widget
+        """
+        
         self.pw_main = tk.PanedWindow(self.master, orient='horizontal')
         self.pw_main.pack(expand=True, fill = tk.BOTH, side="left")
         
@@ -60,27 +55,20 @@ class Application(tk.Frame):
         self.pw_band = tk.PanedWindow(self.pw_main, bg="cyan", orient='vertical', width=700)
         self.pw_main.add(self.pw_band)
 
-        # plot_button = tk.Button(master = pw_tab,height = 2, width = 10, text = "Plot")
-        # plot_button.pack()
-
         btn_tool_1 = tk.Button(pw_tab, text="Plot", command=lambda:self.open_modal(), height = 2, width = 10)
-        # btn_tool_1.grid(row=3, column=0, sticky=tk.W + tk.E, padx=2, pady=10)
         btn_tool_1.pack()
 
         btn_tool_2 = tk.Button(pw_tab, text="Spin", command=lambda:self.select_spin(), height = 2, width = 10)
         btn_tool_2.pack()
 
-        # btn_tool_3 = tk.Button(pw_tab, text="Modal", command=lambda:self.open_modal(), height = 2, width = 10)
-        # btn_tool_3.pack()
-
 
     def open_modal(self):
         modal = BandSelectModal.ModalWindow(parent=self.master)
-        # testModal.TestModal(self.master)
         print("result", modal.kpoints_label_num)
         self.file_path = modal.file_path
         self.kpoints_label_num = modal.kpoints_label_num
         self.each_kpoints_num = modal.each_kpoints_num
+
 
         modal2 = InputKLabelsModal.InputKLabelsModal(parent=self.master, kpoints_label_num = modal.kpoints_label_num)
         self.kpoints_label_list = modal2.kpoints_label_list
@@ -113,10 +101,9 @@ class Application(tk.Frame):
         canvas.get_tk_widget().pack()
     
 
-# 実行
 root = tk.Tk()
 myapp = Application(master=root)
-myapp.master.title("My Application") # タイトル
-myapp.master.geometry("1000x800") # ウィンドウの幅と高さピクセル単位で指定（width x height）
+myapp.master.title("My Application")
+myapp.master.geometry("1000x800")
 
 myapp.mainloop()

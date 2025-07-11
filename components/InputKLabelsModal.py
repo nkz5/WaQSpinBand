@@ -8,8 +8,6 @@ class InputKLabelsModal(tk.Toplevel):
         self.geometry("500x500")
         self.transient(parent)
         self.grab_set()
-
-        # self.kpoints_label_num = kpoints_label_num
         
         label1 = tk.Label(self, text="Input K lavel name")
         label1.pack(expand=True)
