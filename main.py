@@ -14,6 +14,7 @@ import services.graph as graph
 import services.data as data
 
 import components.BandSelectModal as BandSelectModal
+import components.InputKLabelsModal as InputKLabelsModal
 
 
 # アプリケーション（GUI）クラス
@@ -27,7 +28,11 @@ class Application(tk.Frame):
     k_points_df = None
     bands_spin_df = None
 
-    k_points_root = None
+    file_path = None
+    kpoints_label_num = None
+    each_kpoints_num = None
+    kpoints_label_list = None
+    # k_points_root = None
     k_range = None
     ylim = None
 
@@ -58,30 +63,32 @@ class Application(tk.Frame):
         # plot_button = tk.Button(master = pw_tab,height = 2, width = 10, text = "Plot")
         # plot_button.pack()
 
-        btn_tool_1 = tk.Button(pw_tab, text="Plot", command=lambda:self.select_band(), height = 2, width = 10)
+        btn_tool_1 = tk.Button(pw_tab, text="Plot", command=lambda:self.open_modal(), height = 2, width = 10)
         # btn_tool_1.grid(row=3, column=0, sticky=tk.W + tk.E, padx=2, pady=10)
         btn_tool_1.pack()
 
         btn_tool_2 = tk.Button(pw_tab, text="Spin", command=lambda:self.select_spin(), height = 2, width = 10)
         btn_tool_2.pack()
 
-        btn_tool_3 = tk.Button(pw_tab, text="Modal", command=lambda:self.open_modal(), height = 2, width = 10)
-        btn_tool_3.pack()
+        # btn_tool_3 = tk.Button(pw_tab, text="Modal", command=lambda:self.open_modal(), height = 2, width = 10)
+        # btn_tool_3.pack()
+
 
     def open_modal(self):
-        BandSelectModal.ModalWindow(self.pw_main)
+        modal = BandSelectModal.ModalWindow(parent=self.master)
+        # testModal.TestModal(self.master)
+        print("result", modal.kpoints_label_num)
+        self.file_path = modal.file_path
+        self.kpoints_label_num = modal.kpoints_label_num
+        self.each_kpoints_num = modal.each_kpoints_num
 
-    def select_band(self):
-        fTyp = [("", "*")]
-        iDir = os.path.abspath(os.path.dirname(__file__))
-        file_path = tkFileDialog.askopenfilename(filetypes=fTyp, initialdir=iDir)
-        self.bands_df, self.k_points_df = data.bands(file_path)
+        modal2 = InputKLabelsModal.InputKLabelsModal(parent=self.master, kpoints_label_num = modal.kpoints_label_num)
+        self.kpoints_label_list = modal2.kpoints_label_list
 
-        self.k_points_root = [r"$\Gamma$", "X", "S", "Y", r"$\Gamma$", "Z", "U", "R", "T", "Z"]
-        self.k_range = [0, 10]
-        self.ylim = [-2, 7]
+        self.bands_df, self.k_points_df = data.bands(self.file_path)
 
         self.plot_band(spin_flg=False)
+
 
     def select_spin(self):
         fTyp = [("", "*")]
@@ -96,7 +103,7 @@ class Application(tk.Frame):
         self.pw_band = tk.PanedWindow(self.pw_main, bg="cyan", orient='vertical', width=700)
         self.pw_main.add(self.pw_band)
 
-        fig1 = graph.bands(bands_df=self.bands_df, k_points_positions=range(len(self.k_points_df)), k_points_each=10, k_points_root=self.k_points_root, Fermi=0, ylim=self.ylim, console=True, k_range=self.k_range, size=[5,5], spin=spin_flg, bands_spin_df=self.bands_spin_df)
+        fig1 = graph.bands(bands_df=self.bands_df, k_points_positions=range(len(self.k_points_df)), k_points_each=self.each_kpoints_num, k_points_root=self.kpoints_label_list, Fermi=0, ylim=self.ylim, console=True, k_range=self.k_range, size=[5,5], spin=spin_flg, bands_spin_df=self.bands_spin_df)
         
         canvas = FigureCanvasTkAgg(fig1,master = self.pw_band)
         canvas.draw()
