@@ -2,3 +2,4 @@ pytk
 numpy
 matplotlib
 pandas
+RangeSlider

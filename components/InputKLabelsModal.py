@@ -29,5 +29,4 @@ class InputKLabelsModal(tk.Toplevel):
         for i in self.input_list:
             self.kpoints_label_list.append(i.get())
         
-        print(self.kpoints_label_list)
         self.destroy()
