@@ -35,8 +35,8 @@ class ModalWindow(tk.Toplevel):
         self.each_kpoints_num_input = tk.Entry(self)
         self.each_kpoints_num_input.pack(expand=True)
 
-        close_button = tk.Button(self, text="close", command=lambda:self.plot_band())
-        close_button.pack(expand=True)
+        next_button = tk.Button(self, text="next", command=lambda:self.next_window())
+        next_button.pack(expand=True)
 
         self.wait_window()
 
@@ -47,7 +47,7 @@ class ModalWindow(tk.Toplevel):
         self.file_path = tkFileDialog.askopenfilename(filetypes=fTyp, initialdir=iDir)
 
 
-    def plot_band(self):
+    def next_window(self):
         self.kpoints_label_num = int(self.kpoints_label_num_input.get())
         self.each_kpoints_num = int(self.each_kpoints_num_input.get())
         self.destroy()
