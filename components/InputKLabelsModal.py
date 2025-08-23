@@ -24,9 +24,33 @@ class InputKLabelsModal(tk.Toplevel):
 
         self.wait_window()
         
+
+    def convert_greek(self, input_char: str):
+        """
+        convert small letter to greek character. Only 4 letters in order.
+
+        Parameters
+        ------------------
+        input_char : String
+            character entered in each label input
+
+        Returns
+        ------------------
+        character which small letter is converted to greek character
+        """
+        greek_char_map = {
+            'g': 'Γ',
+            'd': 'Δ',
+            's': 'Σ',
+            'l': 'Λ',
+        }
+
+        converted_char = greek_char_map.get(input_char)
+        return converted_char if (converted_char != None) else input_char
+
     def plot_band(self):
         self.kpoints_label_list = []
         for i in self.input_list:
-            self.kpoints_label_list.append(i.get())
+            self.kpoints_label_list.append(self.convert_greek(i.get()))
         
         self.destroy()
