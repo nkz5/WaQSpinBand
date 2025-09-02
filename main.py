@@ -34,6 +34,7 @@ class Application(tk.Frame):
     kpoints_label_list = None
     k_range = None
     ylim = None
+    fermi_level_eV = 0
 
     band_plot_flg = False
 
@@ -47,6 +48,7 @@ class Application(tk.Frame):
         self.k_range_right = tk.IntVar(value = 10)
         self.y_lim_left = tk.DoubleVar(value=-25)
         self.y_lim_right = tk.DoubleVar(value=10)
+        self.fermi_level = tk.DoubleVar(value=0)
 
         
     def create_widgets(self):
@@ -119,8 +121,9 @@ class Application(tk.Frame):
         # set y limit and k range
         self.ylim = [self.y_lim_left.get(), self.y_lim_right.get()]
         self.k_range = [self.k_range_left.get(), self.k_range_right.get()]
+        self.fermi_level_eV = self.fermi_level.get()
 
-        fig1 = graph.bands(bands_df=self.bands_df, k_points_positions=range(len(self.k_points_df)), k_points_each=self.each_kpoints_num, k_points_root=self.kpoints_label_list, Fermi=0, ylim=self.ylim, console=True, k_range=self.k_range, size=[5,5], spin=spin_flg, bands_spin_df=self.bands_spin_df)
+        fig1 = graph.bands(bands_df=self.bands_df, k_points_positions=range(len(self.k_points_df)), k_points_each=self.each_kpoints_num, k_points_root=self.kpoints_label_list, Fermi=self.fermi_level_eV, ylim=self.ylim, console=True, k_range=self.k_range, size=[5,5], spin=spin_flg, bands_spin_df=self.bands_spin_df)
         
         canvas = FigureCanvasTkAgg(fig1,master = self.pw_band)
         canvas.draw()
@@ -153,6 +156,11 @@ class Application(tk.Frame):
         self.y_lim_left_input.pack(expand=True)
         self.y_lim_right_input = tk.Entry(self.pw_tab, textvariable=self.y_lim_right)
         self.y_lim_right_input.pack(expand=True)
+
+        self.fermi_level_lavel = tk.Label(self.pw_tab, text="Fermi Level (eV)")
+        self.fermi_level_lavel.pack(expand=True)
+        self.fermi_level_input = tk.Entry(self.pw_tab, textvariable=self.fermi_level)
+        self.fermi_level_input.pack(expand=True)
 
         update_btn = tk.Button(self.pw_tab,text="Update", command=lambda:self.plot_band(spin_flg = not (self.bands_spin_df is None)))
         update_btn.pack()
