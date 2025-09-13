@@ -123,7 +123,7 @@ class Application(tk.Frame):
         self.k_range = [self.k_range_left.get(), self.k_range_right.get()]
         self.fermi_level_eV = self.fermi_level.get()
 
-        fig1 = graph.bands(bands_df=self.bands_df, k_points_positions=range(len(self.k_points_df)), k_points_each=self.each_kpoints_num, k_points_root=self.kpoints_label_list, Fermi=self.fermi_level_eV, ylim=self.ylim, console=True, k_range=self.k_range, size=[5,5], spin=spin_flg, bands_spin_df=self.bands_spin_df)
+        fig1 = graph.bands(bands_df=self.bands_df, k_points_positions=range(len(self.k_points_df)), k_points_each=self.each_kpoints_num, k_points_root=self.kpoints_label_list, Fermi=self.fermi_level_eV, ylim=self.ylim, console=True, k_range=self.k_range, size=[4,5], spin=spin_flg, bands_spin_df=self.bands_spin_df)
         
         canvas = FigureCanvasTkAgg(fig1,master = self.pw_band)
         canvas.draw()

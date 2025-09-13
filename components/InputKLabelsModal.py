@@ -43,6 +43,8 @@ class InputKLabelsModal(tk.Toplevel):
             'd': 'Δ',
             's': 'Σ',
             'l': 'Λ',
+            'c2': r"$C_2$",
+            'y2': r"$Y_2$"
         }
 
         converted_char = greek_char_map.get(input_char)
