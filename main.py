@@ -24,6 +24,7 @@ class Application(tk.Frame):
     pw_main = None
     pw_band = None
 
+    file_dir = ""
     bands_df = None
     k_points_df = None
     bands_spin_df = None
@@ -76,8 +77,9 @@ class Application(tk.Frame):
         """
         open BandSelectModal and then open InputKLabelsModal, plot band data
         """
-        modal = BandSelectModal.ModalWindow(parent=self.master)
+        modal = BandSelectModal.ModalWindow(parent=self.master, file_dir = self.file_dir)
         self.file_path = modal.file_path
+        self.file_dir = os.path.dirname(self.file_path)
         self.kpoints_label_num = modal.kpoints_label_num
         self.each_kpoints_num = modal.each_kpoints_num
 
@@ -98,8 +100,7 @@ class Application(tk.Frame):
         select spin input file
         """
         fTyp = [("", "*")]
-        iDir = os.path.abspath(os.path.dirname(__file__))
-        file_path = tkFileDialog.askopenfilename(filetypes=fTyp, initialdir=iDir)
+        file_path = tkFileDialog.askopenfilename(filetypes=fTyp, initialdir=self.file_dir)
         self.bands_spin_df, k_points_df = data.bands(file_path)
 
         self.plot_band(spin_flg=True)

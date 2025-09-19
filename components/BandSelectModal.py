@@ -5,7 +5,7 @@ import tkinter.ttk as ttk
 from tkinter import filedialog as tkFileDialog
 
 class ModalWindow(tk.Toplevel):
-    def __init__(self, parent):
+    def __init__(self, parent, file_dir):
         super().__init__(parent)
         self.title("ModalWindow1")
         self.geometry("500x500")
@@ -13,6 +13,7 @@ class ModalWindow(tk.Toplevel):
         self.grab_set()
 
         self.file_path = None
+        self.file_dir = file_dir
 
         label = tk.Label(self, text="Modal Test")
         label.pack(expand=True)
@@ -43,8 +44,7 @@ class ModalWindow(tk.Toplevel):
 
     def select_band(self):
         fTyp = [("", "*")]
-        iDir = os.path.abspath(os.path.dirname(__file__))
-        self.file_path = tkFileDialog.askopenfilename(filetypes=fTyp, initialdir=iDir)
+        self.file_path = tkFileDialog.askopenfilename(filetypes=fTyp, initialdir=self.file_dir==None)
 
 
     def next_window(self):
