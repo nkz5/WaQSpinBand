@@ -29,7 +29,7 @@ class Application(tk.Frame):
     k_points_df = None
     bands_spin_df = None
 
-    file_path = None
+    file_path = ""
     kpoints_label_num = None
     each_kpoints_num = None
     kpoints_label_list = None
@@ -42,7 +42,7 @@ class Application(tk.Frame):
 
     def __init__(self, master=None):
         super().__init__(master)
-        self.pack()
+        # self.pack()
 
         self.create_widgets()
         self.k_range_left = tk.IntVar(value = 0)
@@ -57,20 +57,35 @@ class Application(tk.Frame):
         Create main widget, left tab widget and right band plot widget
         """
 
-        self.pw_main = tk.PanedWindow(self.master, orient='horizontal')
-        self.pw_main.pack(expand=True, fill = tk.BOTH, side="left")
+        # self.pw_main1 = tk.PanedWindow(self.master, orient='horizontal')
+        # self.pw_main1.pack(expand=True, fill = tk.BOTH, side="left")
+
+        # self.pw_top = tk.PanedWindow(self.pw_main1, bg="black", orient='horizontal')
+        # self.pw_main1.add(self.pw_top)
+
+        # self.pw_main = tk.PanedWindow(self.pw_main1, bg="white", orient='horizontal', height=500)
+        # self.pw_main1.add(self.pw_main)
         
-        self.pw_tab = tk.PanedWindow(self.pw_main, bg="yellow", orient='vertical')
-        self.pw_main.add(self.pw_tab)
+        # self.pw_tab = tk.PanedWindow(self.pw_main, bg="yellow", orient='vertical')
+        # self.pw_main.add(self.pw_tab)
 
-        self.pw_band = tk.PanedWindow(self.pw_main, bg="cyan", orient='vertical', width=700)
-        self.pw_main.add(self.pw_band)
+        # self.pw_band = tk.PanedWindow(self.pw_main, bg="cyan", orient='vertical', width=700)
+        # self.pw_main.add(self.pw_band)
+        file_label = tk.Label(self.master, text="file path : " + self.file_path, height=2, width=50, justify="left", bg="gray")
 
-        btn_tool_1 = tk.Button(self.pw_tab, text="Plot", command=lambda:self.open_modal(), height = 2, width = 10)
-        btn_tool_1.pack()
+        btn_tool_1 = tk.Button(self.master, text="Plot", command=lambda:self.open_modal(), height = 2, width = 10)
+        # btn_tool_1.pack()
 
-        btn_tool_2 = tk.Button(self.pw_tab, text="Spin", command=lambda:self.select_spin(), height = 2, width = 10)
-        btn_tool_2.pack()
+        btn_tool_2 = tk.Button(self.master, text="Spin", command=lambda:self.select_spin(), height = 2, width = 10)
+        # btn_tool_2.pack()
+
+        plotconfig_label = tk.Label(self.master, text="plot config", height=2, bg="white", justify="left")
+
+        # canvas1.grid(row=0, column=0, columnspan=3) 
+        file_label.grid(row=0, column=0, columnspan=3)
+        btn_tool_1.grid(row=0, column=4)
+        btn_tool_2.grid(row=0, column=5)
+        plotconfig_label.grid(row=1, column=0)
 
 
     def open_modal(self):
@@ -128,10 +143,10 @@ class Application(tk.Frame):
         
         canvas = FigureCanvasTkAgg(fig1,master = self.pw_band)
         canvas.draw()
-        canvas.get_tk_widget().pack()
+        # canvas.get_tk_widget().pack()
         toolbar = NavigationToolbar2Tk(canvas, self.pw_band)
         toolbar.update()
-        canvas.get_tk_widget().pack()
+        # canvas.get_tk_widget().pack()
 
         # when plot band first time, add graph parameter input
         if not self.band_plot_flg:
@@ -145,26 +160,26 @@ class Application(tk.Frame):
         k range slider and y limit input
         """
         self.k_range_label = tk.Label(self.pw_tab, text="K range")
-        self.k_range_label.pack(expand=True)
+        # self.k_range_label.pack(expand=True)
 
         self.k_range_slider = RangeSliderH(self.pw_tab, [self.k_range_left, self.k_range_right], padX = 12, min_val = 0, max_val = self.kpoints_label_num-1, step_size = 1, step_marker = True, digit_precision = '.0f')
-        self.k_range_slider.pack()
+        # self.k_range_slider.pack()
 
         self.ylim_input_label = tk.Label(self.pw_tab, text="set y range")
-        self.ylim_input_label.pack(expand=True)
+        # self.ylim_input_label.pack(expand=True)
 
         self.y_lim_left_input = tk.Entry(self.pw_tab, textvariable=self.y_lim_left)
-        self.y_lim_left_input.pack(expand=True)
+        # self.y_lim_left_input.pack(expand=True)
         self.y_lim_right_input = tk.Entry(self.pw_tab, textvariable=self.y_lim_right)
-        self.y_lim_right_input.pack(expand=True)
+        # self.y_lim_right_input.pack(expand=True)
 
         self.fermi_level_lavel = tk.Label(self.pw_tab, text="Fermi Level (eV)")
-        self.fermi_level_lavel.pack(expand=True)
+        # self.fermi_level_lavel.pack(expand=True)
         self.fermi_level_input = tk.Entry(self.pw_tab, textvariable=self.fermi_level)
-        self.fermi_level_input.pack(expand=True)
+        # self.fermi_level_input.pack(expand=True)
 
         update_btn = tk.Button(self.pw_tab,text="Update", command=lambda:self.plot_band(spin_flg = not (self.bands_spin_df is None)))
-        update_btn.pack()
+        # update_btn.pack()
             
 
 root = tk.Tk()
